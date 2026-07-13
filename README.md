@@ -1,17 +1,15 @@
 # KYVARA
 
-Repository initialized.
+Enterprise AI Operating System
 
-## Structure
-- assets/
-- backend/
-- database/
-- docs/
-- frontend/
-- infrastructure/
-- scripts/
-- tests/
-- tools/
+Modules
 
-## Notes
-Add project-specific documentation, setup instructions, and license details here.
+- Builder
+- Backend
+- Frontend
+- AI Runtime
+- Identity
+- SharedKernel
+- Workflow
+- Knowledge Graph
+- ERP
