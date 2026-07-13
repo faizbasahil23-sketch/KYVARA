@@ -1,0 +1,7 @@
+KYVARA Deployment
+
+Version : 20260711_191457
+Date    : 07/11/2026 19:17:19
+Machine : LAPTOP-2EH8V39J
+User    : Lenovo
+.NET    : 10.0.301

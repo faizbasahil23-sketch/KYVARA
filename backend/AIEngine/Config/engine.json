@@ -1,0 +1,9 @@
+{
+    "Engine":"KYVARA AI",
+    "Version":"2.0",
+    "Planner":"Enabled",
+    "Reasoner":"Enabled",
+    "Memory":"Enabled",
+    "Workflow":"Enabled",
+    "Learning":"Enabled"
+}

@@ -1,0 +1,8 @@
+{
+    "Engine":"Workflow",
+    "Version":"1.0",
+    "ParallelExecution":true,
+    "RetryEnabled":true,
+    "MaxRetry":3,
+    "Scheduler":true
+}

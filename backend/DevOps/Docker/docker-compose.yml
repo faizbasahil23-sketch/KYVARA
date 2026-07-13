@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+
+  kyvara-api:
+
+    build:
+      context: ../..
+
+    container_name: kyvara-api
+
+    ports:
+      - "5000:8080"
+
+    restart: always

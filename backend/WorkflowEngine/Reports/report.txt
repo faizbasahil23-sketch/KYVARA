@@ -1,0 +1,11 @@
+KYVARA WORKFLOW REPORT
+
+Status : Ready
+
+Definitions : 1
+
+Queue : Ready
+
+Scheduler : Ready
+
+Execution : Ready

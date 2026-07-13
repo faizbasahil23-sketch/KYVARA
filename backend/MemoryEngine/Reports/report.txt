@@ -1,0 +1,11 @@
+KYVARA MEMORY ENGINE REPORT
+
+Status : Ready
+
+Working Memory : Ready
+
+Long Term Memory : Ready
+
+Vector Store : Ready
+
+Learning : Ready

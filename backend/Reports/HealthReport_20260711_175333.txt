@@ -1,0 +1,242 @@
+KYVARA HEALTH REPORT
+Generated : 07/11/2026 17:53:33
+
+========== PROJECT ==========
+C:\KYVARA\backend\KYVARA.slnx
+C:\KYVARA\backend\Backups\20260711_172710\Kyvara.Api.csproj
+C:\KYVARA\backend\Backups\20260711_172710\Kyvara.Application.csproj
+C:\KYVARA\backend\Backups\20260711_172710\Kyvara.Domain.csproj
+C:\KYVARA\backend\Backups\20260711_172710\Kyvara.Infrastructure.csproj
+C:\KYVARA\backend\Backups\20260711_172710\Kyvara.SharedKernel.csproj
+C:\KYVARA\backend\Backups\20260711_172710\Kyvara.Tools.csproj
+C:\KYVARA\backend\Kyvara.Api\Kyvara.Api.csproj
+C:\KYVARA\backend\Kyvara.Application\Kyvara.Application.csproj
+C:\KYVARA\backend\Kyvara.Domain\Kyvara.Domain.csproj
+C:\KYVARA\backend\Kyvara.Infrastructure\Kyvara.Infrastructure.csproj
+C:\KYVARA\backend\Kyvara.SharedKernel\Kyvara.SharedKernel.csproj
+C:\KYVARA\backend\Kyvara.Tools\Kyvara.Tools.csproj
+========== DIRECTORY ==========
+C:\KYVARA\backend\analyze.ps1
+C:\KYVARA\backend\backup.ps1
+C:\KYVARA\backend\Backups
+C:\KYVARA\backend\build.ps1
+C:\KYVARA\backend\build.txt
+C:\KYVARA\backend\clean.ps1
+C:\KYVARA\backend\database.ps1
+C:\KYVARA\backend\doctor.ps1
+C:\KYVARA\backend\Kyvara.Api
+C:\KYVARA\backend\Kyvara.Application
+C:\KYVARA\backend\Kyvara.Domain
+C:\KYVARA\backend\Kyvara.Infrastructure
+C:\KYVARA\backend\Kyvara.SharedKernel
+C:\KYVARA\backend\KYVARA.slnx
+C:\KYVARA\backend\Kyvara.Tools
+C:\KYVARA\backend\project-tree.txt
+C:\KYVARA\backend\Publish
+C:\KYVARA\backend\publish.ps1
+C:\KYVARA\backend\repair.ps1
+C:\KYVARA\backend\Reports
+C:\KYVARA\backend\restore.ps1
+C:\KYVARA\backend\run.ps1
+C:\KYVARA\backend\temp.txt
+  Determining projects to restore...
+C:\KYVARA\backend\Kyvara.Infrastructure\Kyvara.Infrastructure.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q [C:\KYVARA\backend\KYVARA.slnx]
+C:\KYVARA\backend\Kyvara.Api\Kyvara.Api.csproj : warning NU1903: Package 'Microsoft.OpenApi' 2.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-v5pm-xwqc-g5wc [C:\KYVARA\backend\KYVARA.slnx]
+C:\KYVARA\backend\Kyvara.Api\Kyvara.Api.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q [C:\KYVARA\backend\KYVARA.slnx]
+C:\KYVARA\backend\Kyvara.Infrastructure\Kyvara.Infrastructure.csproj : warning NU1903: Package 'System.Security.Cryptography.Xml' 9.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-37gx-xxp4-5rgx [C:\KYVARA\backend\KYVARA.slnx]
+C:\KYVARA\backend\Kyvara.Infrastructure\Kyvara.Infrastructure.csproj : warning NU1903: Package 'System.Security.Cryptography.Xml' 9.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-w3x6-4m5h-cxqf [C:\KYVARA\backend\KYVARA.slnx]
+  All projects are up-to-date for restore.
+Project 'Kyvara.Api' has the following package references
+   [net10.0]: 
+   Top-level Package                                       Requested   Resolved
+   > MediatR                                               11.1.0      11.1.0  
+   > MediatR.Extensions.Microsoft.DependencyInjection      11.1.0      11.1.0  
+   > Microsoft.AspNetCore.OpenApi                          10.0.9      10.0.9  
+   > Microsoft.EntityFrameworkCore.Design                  10.0.9      10.0.9  
+
+Project 'Kyvara.Application' has the following package references
+   [net10.0]: 
+   Top-level Package                                       Requested   Resolved
+   > MediatR                                               11.1.0      11.1.0  
+   > MediatR.Extensions.Microsoft.DependencyInjection      11.1.0      11.1.0  
+
+Project 'Kyvara.Domain' has the following package references
+   [net10.0]: No packages were found for this framework.
+Project 'Kyvara.Infrastructure' has the following package references
+   [net10.0]: 
+   Top-level Package                                    Requested                    Resolved                  
+   > BCrypt.Net-Next                                    4.2.0                        4.2.0                     
+   > MediatR                                            11.1.0                       11.1.0                    
+   > Microsoft.AspNetCore.Authentication.JwtBearer      10.0.9                       10.0.9                    
+   > Microsoft.EntityFrameworkCore                      10.0.9                       10.0.9                    
+   > Microsoft.EntityFrameworkCore.Design               10.0.0                       10.0.0                    
+   > Microsoft.EntityFrameworkCore.Sqlite               10.0.9                       10.0.9                    
+   > Microsoft.EntityFrameworkCore.Tools                10.0.0-preview.7.25380.108   10.0.0-preview.7.25380.108
+
+Project 'Kyvara.SharedKernel' has the following package references
+   [net10.0]: No packages were found for this framework.
+Project 'Kyvara.Tools' has the following package references
+   [net10.0]: No packages were found for this framework.
+  Determining projects to restore...
+C:\KYVARA\backend\Kyvara.Infrastructure\Kyvara.Infrastructure.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q [C:\KYVARA\backend\KYVARA.slnx]
+C:\KYVARA\backend\Kyvara.Infrastructure\Kyvara.Infrastructure.csproj : warning NU1903: Package 'System.Security.Cryptography.Xml' 9.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-37gx-xxp4-5rgx [C:\KYVARA\backend\KYVARA.slnx]
+C:\KYVARA\backend\Kyvara.Infrastructure\Kyvara.Infrastructure.csproj : warning NU1903: Package 'System.Security.Cryptography.Xml' 9.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-w3x6-4m5h-cxqf [C:\KYVARA\backend\KYVARA.slnx]
+C:\KYVARA\backend\Kyvara.Api\Kyvara.Api.csproj : warning NU1903: Package 'Microsoft.OpenApi' 2.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-v5pm-xwqc-g5wc [C:\KYVARA\backend\KYVARA.slnx]
+C:\KYVARA\backend\Kyvara.Api\Kyvara.Api.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q [C:\KYVARA\backend\KYVARA.slnx]
+  All projects are up-to-date for restore.
+
+The following sources were used:
+   https://api.nuget.org/v3/index.json
+
+Project `Kyvara.Api` has the following updates to its packages
+   [net10.0]: 
+   Top-level Package      Requested   Resolved   Latest
+   > MediatR              11.1.0      11.1.0     14.2.0
+
+Project `Kyvara.Application` has the following updates to its packages
+   [net10.0]: 
+   Top-level Package      Requested   Resolved   Latest
+   > MediatR              11.1.0      11.1.0     14.2.0
+
+The given project `Kyvara.Domain` has no updates given the current sources.
+Project `Kyvara.Infrastructure` has the following updates to its packages
+   [net10.0]: 
+   Top-level Package                           Requested                    Resolved                     Latest
+   > MediatR                                   11.1.0                       11.1.0                       14.2.0
+   > Microsoft.EntityFrameworkCore.Design      10.0.0                       10.0.0                       10.0.9
+   > Microsoft.EntityFrameworkCore.Tools       10.0.0-preview.7.25380.108   10.0.0-preview.7.25380.108   10.0.9
+
+The given project `Kyvara.SharedKernel` has no updates given the current sources.
+The given project `Kyvara.Tools` has no updates given the current sources.
+  Determining projects to restore...
+C:\KYVARA\backend\Kyvara.Api\Kyvara.Api.csproj : warning NU1903: Package 'Microsoft.OpenApi' 2.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-v5pm-xwqc-g5wc [C:\KYVARA\backend\KYVARA.slnx]
+C:\KYVARA\backend\Kyvara.Api\Kyvara.Api.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q [C:\KYVARA\backend\KYVARA.slnx]
+C:\KYVARA\backend\Kyvara.Infrastructure\Kyvara.Infrastructure.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q [C:\KYVARA\backend\KYVARA.slnx]
+C:\KYVARA\backend\Kyvara.Infrastructure\Kyvara.Infrastructure.csproj : warning NU1903: Package 'System.Security.Cryptography.Xml' 9.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-37gx-xxp4-5rgx [C:\KYVARA\backend\KYVARA.slnx]
+C:\KYVARA\backend\Kyvara.Infrastructure\Kyvara.Infrastructure.csproj : warning NU1903: Package 'System.Security.Cryptography.Xml' 9.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-w3x6-4m5h-cxqf [C:\KYVARA\backend\KYVARA.slnx]
+  All projects are up-to-date for restore.
+
+The following sources were used:
+   https://api.nuget.org/v3/index.json
+
+The given project `Kyvara.Api` has no vulnerable packages given the current sources.
+The given project `Kyvara.Application` has no vulnerable packages given the current sources.
+The given project `Kyvara.Domain` has no vulnerable packages given the current sources.
+The given project `Kyvara.Infrastructure` has no vulnerable packages given the current sources.
+The given project `Kyvara.SharedKernel` has no vulnerable packages given the current sources.
+The given project `Kyvara.Tools` has no vulnerable packages given the current sources.
+  Determining projects to restore...
+C:\KYVARA\backend\Kyvara.Infrastructure\Kyvara.Infrastructure.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q [C:\KYVARA\backend\KYVARA.slnx]
+C:\KYVARA\backend\Kyvara.Infrastructure\Kyvara.Infrastructure.csproj : warning NU1903: Package 'System.Security.Cryptography.Xml' 9.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-37gx-xxp4-5rgx [C:\KYVARA\backend\KYVARA.slnx]
+C:\KYVARA\backend\Kyvara.Infrastructure\Kyvara.Infrastructure.csproj : warning NU1903: Package 'System.Security.Cryptography.Xml' 9.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-w3x6-4m5h-cxqf [C:\KYVARA\backend\KYVARA.slnx]
+C:\KYVARA\backend\Kyvara.Api\Kyvara.Api.csproj : warning NU1903: Package 'Microsoft.OpenApi' 2.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-v5pm-xwqc-g5wc [C:\KYVARA\backend\KYVARA.slnx]
+C:\KYVARA\backend\Kyvara.Api\Kyvara.Api.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q [C:\KYVARA\backend\KYVARA.slnx]
+  All projects are up-to-date for restore.
+  Kyvara.SharedKernel -> C:\KYVARA\backend\Kyvara.SharedKernel\bin\Debug\net10.0\Kyvara.SharedKernel.dll
+  Kyvara.Domain -> C:\KYVARA\backend\Kyvara.Domain\bin\Debug\net10.0\Kyvara.Domain.dll
+  Kyvara.Application -> C:\KYVARA\backend\Kyvara.Application\bin\Debug\net10.0\Kyvara.Application.dll
+C:\KYVARA\backend\Kyvara.Infrastructure\Kyvara.Infrastructure.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q
+C:\KYVARA\backend\Kyvara.Infrastructure\Kyvara.Infrastructure.csproj : warning NU1903: Package 'System.Security.Cryptography.Xml' 9.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-37gx-xxp4-5rgx
+C:\KYVARA\backend\Kyvara.Infrastructure\Kyvara.Infrastructure.csproj : warning NU1903: Package 'System.Security.Cryptography.Xml' 9.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-w3x6-4m5h-cxqf
+  Kyvara.Infrastructure -> C:\KYVARA\backend\Kyvara.Infrastructure\bin\Debug\net10.0\Kyvara.Infrastructure.dll
+C:\KYVARA\backend\Kyvara.Api\Kyvara.Api.csproj : warning NU1903: Package 'Microsoft.OpenApi' 2.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-v5pm-xwqc-g5wc
+C:\KYVARA\backend\Kyvara.Api\Kyvara.Api.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q
+  Kyvara.Tools -> C:\KYVARA\backend\Kyvara.Tools\bin\Debug\net10.0\Kyvara.Tools.dll
+  Kyvara.Api -> C:\KYVARA\backend\Kyvara.Api\bin\Debug\net10.0\Kyvara.Api.dll
+
+Build succeeded.
+
+C:\KYVARA\backend\Kyvara.Infrastructure\Kyvara.Infrastructure.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q [C:\KYVARA\backend\KYVARA.slnx]
+C:\KYVARA\backend\Kyvara.Infrastructure\Kyvara.Infrastructure.csproj : warning NU1903: Package 'System.Security.Cryptography.Xml' 9.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-37gx-xxp4-5rgx [C:\KYVARA\backend\KYVARA.slnx]
+C:\KYVARA\backend\Kyvara.Infrastructure\Kyvara.Infrastructure.csproj : warning NU1903: Package 'System.Security.Cryptography.Xml' 9.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-w3x6-4m5h-cxqf [C:\KYVARA\backend\KYVARA.slnx]
+C:\KYVARA\backend\Kyvara.Api\Kyvara.Api.csproj : warning NU1903: Package 'Microsoft.OpenApi' 2.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-v5pm-xwqc-g5wc [C:\KYVARA\backend\KYVARA.slnx]
+C:\KYVARA\backend\Kyvara.Api\Kyvara.Api.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q [C:\KYVARA\backend\KYVARA.slnx]
+C:\KYVARA\backend\Kyvara.Infrastructure\Kyvara.Infrastructure.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q
+C:\KYVARA\backend\Kyvara.Infrastructure\Kyvara.Infrastructure.csproj : warning NU1903: Package 'System.Security.Cryptography.Xml' 9.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-37gx-xxp4-5rgx
+C:\KYVARA\backend\Kyvara.Infrastructure\Kyvara.Infrastructure.csproj : warning NU1903: Package 'System.Security.Cryptography.Xml' 9.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-w3x6-4m5h-cxqf
+C:\KYVARA\backend\Kyvara.Api\Kyvara.Api.csproj : warning NU1903: Package 'Microsoft.OpenApi' 2.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-v5pm-xwqc-g5wc
+C:\KYVARA\backend\Kyvara.Api\Kyvara.Api.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q
+    10 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:21.32
+Tidak ada Test Project.
+Build started...
+Build succeeded.
+Type: Kyvara.Infrastructure.Persistence.KyvaraDbContext
+Provider name: Microsoft.EntityFrameworkCore.Sqlite
+Database name: main
+Data source: kyvara.db
+Options: None
+Build started...
+Build succeeded.
+20260704065353_InitialCreate
+20260705175901_AddUserProfile
+C:\KYVARA\backend\Backups\20260711_172710\kyvara.db
+C:\KYVARA\backend\Kyvara.Api\kyvara.db
+Backups                                   23 files
+Kyvara.Api                              1251 files
+Kyvara.Application                        65 files
+Kyvara.Domain                             57 files
+Kyvara.Infrastructure                    168 files
+Kyvara.SharedKernel                       57 files
+Kyvara.Tools                              53 files
+Publish                                  347 files
+Reports                                    1 files
+C# Files      : 137
+Projects      : 12
+JSON Files    : 149
+.NET SDK:
+ Version:           10.0.301
+ Commit:            96856fd726
+ Workload version:  10.0.300-manifests.b0c14421
+ MSBuild version:   18.6.4+96856fd72
+
+Runtime Environment:
+ OS Name:     Windows
+ OS Version:  10.0.26200
+ OS Platform: Windows
+ RID:         win-x64
+ Base Path:   C:\Program Files\dotnet\sdk\10.0.301\
+
+.NET workloads installed:
+There are no installed workloads to display.
+Configured to use workload sets when installing new manifests.
+No workload sets are installed. Run "dotnet workload restore" to install a workload set.
+
+Host:
+  Version:      10.0.9
+  Architecture: x64
+  Commit:       901ca94124
+
+.NET SDKs installed:
+  10.0.301 [C:\Program Files\dotnet\sdk]
+
+.NET runtimes installed:
+  Microsoft.AspNetCore.App 10.0.9 [C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App]
+  Microsoft.NETCore.App 10.0.9 [C:\Program Files\dotnet\shared\Microsoft.NETCore.App]
+  Microsoft.WindowsDesktop.App 10.0.9 [C:\Program Files\dotnet\shared\Microsoft.WindowsDesktop.App]
+
+Other architectures found:
+  None
+
+Environment variables:
+  Not set
+
+global.json file:
+  Not found
+
+Learn more:
+  https://aka.ms/dotnet/info
+
+Download .NET:
+  https://aka.ms/dotnet/download
+10.0.301 [C:\Program Files\dotnet\sdk]
+Microsoft.AspNetCore.App 10.0.9 [C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App]
+Microsoft.NETCore.App 10.0.9 [C:\Program Files\dotnet\shared\Microsoft.NETCore.App]
+Microsoft.WindowsDesktop.App 10.0.9 [C:\Program Files\dotnet\shared\Microsoft.WindowsDesktop.App]
+
+======================================
+Warnings : 36
+Errors   : 1
+======================================

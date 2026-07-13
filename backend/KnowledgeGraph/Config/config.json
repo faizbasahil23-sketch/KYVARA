@@ -1,0 +1,7 @@
+{
+    "Engine":"KnowledgeGraph",
+    "Version":"1.0",
+    "Storage":"Json",
+    "Inference":true,
+    "SemanticSearch":true
+}

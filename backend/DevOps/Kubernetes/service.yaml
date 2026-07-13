@@ -1,0 +1,21 @@
+apiVersion: v1
+
+kind: Service
+
+metadata:
+
+  name: kyvara-service
+
+spec:
+
+  selector:
+
+    app: kyvara
+
+  ports:
+
+  - port: 80
+
+    targetPort: 8080
+
+  type: NodePort

@@ -1,0 +1,9 @@
+{
+  "Version":"1.0",
+  "MemoryEngine":"Enterprise",
+  "EmbeddingProvider":"Local",
+  "Persistence":"Json",
+  "AutoLearning":true,
+  "AutoSnapshot":true,
+  "SemanticSearch":true
+}

@@ -1,0 +1,6 @@
+KYVARA KNOWLEDGE GRAPH REPORT
+=============================
+
+Nodes : 0
+Edges : 0
+Status : Ready

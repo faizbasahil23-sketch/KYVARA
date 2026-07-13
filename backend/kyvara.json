@@ -1,0 +1,14 @@
+{
+  "ProjectName":"KYVARA",
+  "Root":"C:\\KYVARA\\backend",
+  "Solution":"C:\\KYVARA\\backend\\KYVARA.slnx",
+  "Api":"C:\\KYVARA\\backend\\Kyvara.Api",
+  "Application":"C:\\KYVARA\\backend\\Kyvara.Application",
+  "Domain":"C:\\KYVARA\\backend\\Kyvara.Domain",
+  "Infrastructure":"C:\\KYVARA\\backend\\Kyvara.Infrastructure",
+  "Tools":"C:\\KYVARA\\backend\\tools",
+  "Logs":"C:\\KYVARA\\backend\\logs",
+  "Backup":"C:\\KYVARA\\backend\\backup",
+  "Publish":"C:\\KYVARA\\backend\\publish",
+  "Database":"C:\\KYVARA\\backend\\Kyvara.Api\\kyvara.db"
+}

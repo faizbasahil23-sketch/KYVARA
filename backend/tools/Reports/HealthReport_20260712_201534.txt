@@ -1,0 +1,85 @@
+KYVARA HEALTH REPORT
+Generated : 07/12/2026 20:15:34
+
+========== PROJECT ==========
+========== DIRECTORY ==========
+C:\KYVARA\backend\tools\analyze.ps1
+C:\KYVARA\backend\tools\backup.ps1
+C:\KYVARA\backend\tools\build.ps1
+C:\KYVARA\backend\tools\clean.ps1
+C:\KYVARA\backend\tools\core.ps1
+C:\KYVARA\backend\tools\deploy.ps1
+C:\KYVARA\backend\tools\doctor.ps1
+C:\KYVARA\backend\tools\kyvara.ps1
+C:\KYVARA\backend\tools\monitor.ps1
+C:\KYVARA\backend\tools\new-module.ps1
+C:\KYVARA\backend\tools\package.ps1
+C:\KYVARA\backend\tools\publish.ps1
+C:\KYVARA\backend\tools\repair.ps1
+C:\KYVARA\backend\tools\Reports
+C:\KYVARA\backend\tools\restore.ps1
+C:\KYVARA\backend\tools\run.ps1
+C:\KYVARA\backend\tools\selfheal.ps1
+C:\KYVARA\backend\tools\watch.ps1
+MSBUILD : error MSB1003: Specify a project or solution file. The current working directory does not contain a project or solution file.
+Tidak ada Test Project.
+Unable to retrieve project metadata. Ensure it's an SDK-style project.
+Unable to retrieve project metadata. Ensure it's an SDK-style project.
+Reports                                    1 files
+C# Files      : 0
+Projects      : 0
+JSON Files    : 0
+.NET SDK:
+ Version:           10.0.301
+ Commit:            96856fd726
+ Workload version:  10.0.300-manifests.b0c14421
+ MSBuild version:   18.6.4+96856fd72
+
+Runtime Environment:
+ OS Name:     Windows
+ OS Version:  10.0.26200
+ OS Platform: Windows
+ RID:         win-x64
+ Base Path:   C:\Program Files\dotnet\sdk\10.0.301\
+
+.NET workloads installed:
+There are no installed workloads to display.
+Configured to use workload sets when installing new manifests.
+No workload sets are installed. Run "dotnet workload restore" to install a workload set.
+
+Host:
+  Version:      10.0.9
+  Architecture: x64
+  Commit:       901ca94124
+
+.NET SDKs installed:
+  10.0.301 [C:\Program Files\dotnet\sdk]
+
+.NET runtimes installed:
+  Microsoft.AspNetCore.App 10.0.9 [C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App]
+  Microsoft.NETCore.App 10.0.9 [C:\Program Files\dotnet\shared\Microsoft.NETCore.App]
+  Microsoft.WindowsDesktop.App 10.0.9 [C:\Program Files\dotnet\shared\Microsoft.WindowsDesktop.App]
+
+Other architectures found:
+  None
+
+Environment variables:
+  Not set
+
+global.json file:
+  Not found
+
+Learn more:
+  https://aka.ms/dotnet/info
+
+Download .NET:
+  https://aka.ms/dotnet/download
+10.0.301 [C:\Program Files\dotnet\sdk]
+Microsoft.AspNetCore.App 10.0.9 [C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App]
+Microsoft.NETCore.App 10.0.9 [C:\Program Files\dotnet\shared\Microsoft.NETCore.App]
+Microsoft.WindowsDesktop.App 10.0.9 [C:\Program Files\dotnet\shared\Microsoft.WindowsDesktop.App]
+
+======================================
+Warnings : 0
+Errors   : 1
+======================================

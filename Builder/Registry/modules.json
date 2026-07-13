@@ -1,0 +1,62 @@
+[
+  {
+    "Version": "1.0.0",
+    "Installed": false,
+    "Name": "SharedKernel",
+    "Description": "Shared Kernel"
+  },
+  {
+    "Version": "1.0.0",
+    "Installed": false,
+    "Name": "Identity",
+    "Description": "Identity Platform"
+  },
+  {
+    "Version": "1.0.0",
+    "Installed": false,
+    "Name": "Users",
+    "Description": "User Management"
+  },
+  {
+    "Version": "1.0.0",
+    "Installed": false,
+    "Name": "AI",
+    "Description": "AI Runtime"
+  },
+  {
+    "Version": "1.0.0",
+    "Installed": false,
+    "Name": "CRM",
+    "Description": "CRM"
+  },
+  {
+    "Version": "1.0.0",
+    "Installed": false,
+    "Name": "Finance",
+    "Description": "Finance"
+  },
+  {
+    "Version": "1.0.0",
+    "Installed": false,
+    "Name": "Inventory",
+    "Description": "Inventory"
+  },
+  {
+    "Version": "1.0.0",
+    "Installed": false,
+    "Name": "Workflow",
+    "Description": "Workflow"
+  },
+  {
+    "Version": "1.0.0",
+    "Installed": false,
+    "Name": "KnowledgeGraph",
+    "Description": "Knowledge Graph"
+  },
+  {
+    "Version": "1.0.0",
+    "Installed": false,
+    "Name": "Flutter",
+    "Description": "Flutter"
+  }
+]

@@ -1,0 +1,13 @@
+{
+    "Name":"Build Pipeline",
+    "Steps":[
+        "Analyze",
+        "Repair",
+        "Restore",
+        "Build",
+        "Test",
+        "Publish",
+        "Backup",
+        "Deploy"
+    ]
+}

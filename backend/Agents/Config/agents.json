@@ -1,0 +1,8 @@
+{
+    "Project":"KYVARA",
+    "Version":"1.0",
+    "AIEngine":"Enterprise",
+    "Language":"C#",
+    "Framework":".NET 10",
+    "Architecture":"DDD + CQRS + Clean Architecture"
+}
