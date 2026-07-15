@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Kyvara.Builder/Kyvara.Builder.csproj" />
+  </Folder>
   <Project Path="Kyvara.Api/Kyvara.Api.csproj" />
   <Project Path="Kyvara.Application/Kyvara.Application.csproj" />
   <Project Path="Kyvara.Domain/Kyvara.Domain.csproj" />
