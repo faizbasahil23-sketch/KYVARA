@@ -1,23 +1,32 @@
-using Spectre.Console;
+using Kyvara.Builder.Generators;
 
 namespace Kyvara.Builder.Commands;
 
-public sealed class NewModuleCommand : ICommand
+public sealed class NewModuleCommand
 {
-    public string Name => "new";
-
-    public Task ExecuteAsync(string[] args)
+    public async Task ExecuteAsync(string module)
     {
-        if(args.Length<2)
-        {
-            AnsiConsole.MarkupLine("[red]Module name missing.[/]");
-            return Task.CompletedTask;
-        }
+        var generator = new ModuleGenerator();
 
-        var module=args[1];
+        var output = Path.Combine(
+            Directory.GetCurrentDirectory(),
+            "..",
+            "..",
+            "..",
+            "Modules");
 
-        AnsiConsole.MarkupLine($"[green]Creating module {module}[/]");
+        Directory.CreateDirectory(output);
 
-        return Task.CompletedTask;
+        await generator.GenerateAsync(output,module);
+
+        Console.WriteLine();
+
+        Console.WriteLine("================================");
+
+        Console.WriteLine($"Module {module} generated.");
+
+        Console.WriteLine("================================");
+
+        Console.WriteLine();
     }
 }
