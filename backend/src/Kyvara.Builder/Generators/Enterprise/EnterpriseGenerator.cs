@@ -2,7 +2,7 @@ using Kyvara.Builder.Services;
 
 namespace Kyvara.Builder.Generators.Enterprise;
 
-public sealed class EnterpriseGenerator
+public sealed partial class EnterpriseGenerator
 {
     private readonly ProjectGenerator _generator = new();
 
