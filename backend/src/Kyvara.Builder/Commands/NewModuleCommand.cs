@@ -2,10 +2,26 @@ using Kyvara.Builder.Generators;
 
 namespace Kyvara.Builder.Commands;
 
-public sealed class NewModuleCommand
+public sealed class NewModuleCommand : ICommand
 {
-    public async Task ExecuteAsync(string module)
+    public string Name => "new";
+
+    public async Task ExecuteAsync(string[] args)
     {
+        if(args.Length < 2)
+        {
+            Console.WriteLine("Usage: new module <Name>");
+            return;
+        }
+
+        if(args[0].ToLower() != "module")
+        {
+            Console.WriteLine("Unknown new command.");
+            return;
+        }
+
+        var module = args[1];
+
         var generator = new ModuleGenerator();
 
         var output = Path.Combine(
@@ -19,14 +35,6 @@ public sealed class NewModuleCommand
 
         await generator.GenerateAsync(output,module);
 
-        Console.WriteLine();
-
-        Console.WriteLine("================================");
-
         Console.WriteLine($"Module {module} generated.");
-
-        Console.WriteLine("================================");
-
-        Console.WriteLine();
     }
 }
