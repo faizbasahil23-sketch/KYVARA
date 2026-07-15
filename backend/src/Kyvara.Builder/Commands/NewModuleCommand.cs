@@ -8,19 +8,19 @@ public sealed class NewModuleCommand : ICommand
 
     public async Task ExecuteAsync(string[] args)
     {
-        if(args.Length < 2)
+        if (args.Length < 3)
         {
             Console.WriteLine("Usage: new module <Name>");
             return;
         }
 
-        if(args[0].ToLower() != "module")
+        if (!args[1].Equals("module", StringComparison.OrdinalIgnoreCase))
         {
             Console.WriteLine("Unknown new command.");
             return;
         }
 
-        var module = args[1];
+        var module = args[2];
 
         var generator = new ModuleGenerator();
 
@@ -33,8 +33,12 @@ public sealed class NewModuleCommand : ICommand
 
         Directory.CreateDirectory(output);
 
-        await generator.GenerateAsync(output,module);
+        await generator.GenerateAsync(output, module);
 
+        Console.WriteLine();
+        Console.WriteLine("================================");
         Console.WriteLine($"Module {module} generated.");
+        Console.WriteLine("================================");
+        Console.WriteLine();
     }
 }
