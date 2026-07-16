@@ -1,19 +1,10 @@
-namespace {{Namespace}}.DTOs;
+namespace {{Namespace}}.Dtos;
 
-public sealed record {{Entity}}Dto(
-    Guid Id
-);
+public sealed class {{Entity}}Dto
+{
+    public Guid Id { get; init; }
 
-public sealed record Create{{Entity}}Dto();
+    public DateTime CreatedAt { get; init; }
 
-public sealed record Update{{Entity}}Dto(
-    Guid Id
-);
-
-public sealed record {{Entity}}SummaryDto(
-    Guid Id
-);
-
-public sealed record {{Entity}}DetailDto(
-    Guid Id
-);
+    public DateTime? UpdatedAt { get; init; }
+}
