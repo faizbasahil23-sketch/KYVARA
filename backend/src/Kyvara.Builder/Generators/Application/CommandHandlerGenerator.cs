@@ -7,7 +7,7 @@ public sealed class CommandHandlerGenerator
         return """
 using MediatR;
 
-namespace {{Namespace}}.Handlers;
+namespace {{Namespace}}.Commands;
 
 public sealed class Create{{Entity}}CommandHandler
     : IRequestHandler<Create{{Entity}}Command, Guid>
@@ -16,34 +16,12 @@ public sealed class Create{{Entity}}CommandHandler
         Create{{Entity}}Command request,
         CancellationToken cancellationToken)
     {
-        // TODO: Implement create logic
-        await Task.CompletedTask;
+        // TODO:
+        // Create entity
+        // Save using repository
+        // Commit UnitOfWork
 
-        return request.Id;
-    }
-}
-
-public sealed class Update{{Entity}}CommandHandler
-    : IRequestHandler<Update{{Entity}}Command>
-{
-    public async Task Handle(
-        Update{{Entity}}Command request,
-        CancellationToken cancellationToken)
-    {
-        // TODO: Implement update logic
-        await Task.CompletedTask;
-    }
-}
-
-public sealed class Delete{{Entity}}CommandHandler
-    : IRequestHandler<Delete{{Entity}}Command>
-{
-    public async Task Handle(
-        Delete{{Entity}}Command request,
-        CancellationToken cancellationToken)
-    {
-        // TODO: Implement delete logic
-        await Task.CompletedTask;
+        return await Task.FromResult(request.Id);
     }
 }
 """;
