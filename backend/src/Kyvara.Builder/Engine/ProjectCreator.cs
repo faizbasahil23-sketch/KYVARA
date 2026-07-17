@@ -12,11 +12,32 @@ public sealed class ProjectCreator
 
         foreach (var project in solution.Projects)
         {
-            var path = Path.Combine(
+            var projectPath = Path.Combine(
                 outputDirectory,
                 project);
 
-            Directory.CreateDirectory(path);
+            Directory.CreateDirectory(projectPath);
+
+            var csproj = Path.Combine(
+                projectPath,
+                $"{project}.csproj");
+
+            if (!File.Exists(csproj))
+            {
+                File.WriteAllText(
+                    csproj,
+"""
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>
+""");
+            }
         }
     }
 }
