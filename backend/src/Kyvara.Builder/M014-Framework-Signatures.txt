@@ -1,0 +1,1159 @@
+===== FRAMEWORK FILES =====
+
+Generators\Framework\Abstractions\IGeneratedFileWriter.cs
+Generators\Framework\Abstractions\IGenerator.cs
+Generators\Framework\Abstractions\IGeneratorContext.cs
+Generators\Framework\Abstractions\IGeneratorPipeline.cs
+Generators\Framework\Abstractions\IGeneratorRegistry.cs
+Generators\Framework\Abstractions\ITemplateProvider.cs
+Generators\Framework\Abstractions\ITokenReplacer.cs
+Generators\Framework\Bootstrap\DefaultFileWriterConfiguration.cs
+Generators\Framework\Bootstrap\DefaultTemplateConfiguration.cs
+Generators\Framework\Bootstrap\GeneratorFrameworkConfiguration.cs
+Generators\Framework\Bootstrap\GeneratorFrameworkOptions.cs
+Generators\Framework\Bootstrap\GeneratorFrameworkOptionsValidator.cs
+Generators\Framework\Core\GeneratorBase.cs
+Generators\Framework\Core\GeneratorContext.cs
+Generators\Framework\Core\GeneratorException.cs
+Generators\Framework\FileSystem\GeneratedFileWriteJournal.cs
+Generators\Framework\FileSystem\GeneratedFileWriter.cs
+Generators\Framework\FileSystem\GeneratedFileWriteResult.cs
+Generators\Framework\FileSystem\GeneratedFileWriterException.cs
+Generators\Framework\FileSystem\GeneratedFileWriterFactory.cs
+Generators\Framework\FileSystem\GeneratedFileWriterOptions.cs
+Generators\Framework\FileSystem\GeneratedFileWriteStatus.cs
+Generators\Framework\FileSystem\IGeneratedFileWriteObserver.cs
+Generators\Framework\FileSystem\Validation\GeneratedContentNormalizer.cs
+Generators\Framework\FileSystem\Validation\GeneratedFilePathGuard.cs
+Generators\Framework\Models\GeneratorArtifact.cs
+Generators\Framework\Models\GeneratorRequest.cs
+Generators\Framework\Models\GeneratorResult.cs
+Generators\Framework\Pipeline\GeneratorPipeline.cs
+Generators\Framework\Pipeline\PipelineExecutionContext.cs
+Generators\Framework\Pipeline\PipelineStage.cs
+Generators\Framework\Pipeline\Steps\CreateGeneratorContextStep.cs
+Generators\Framework\Pipeline\Steps\ExecuteGeneratorStep.cs
+Generators\Framework\Pipeline\Steps\IPipelineStep.cs
+Generators\Framework\Pipeline\Steps\ResolveGeneratorStep.cs
+Generators\Framework\Pipeline\Steps\ValidateRequestStep.cs
+Generators\Framework\Pipeline\Steps\WriteArtifactsStep.cs
+Generators\Framework\Registry\GeneratorRegistry.cs
+Generators\Framework\Templates\EmbeddedTemplateProvider.cs
+Generators\Framework\Templates\FileTemplateProvider.cs
+Generators\Framework\Templates\TemplateEngine.cs
+Generators\Framework\Templates\TemplateException.cs
+Generators\Framework\Templates\TemplateRenderRequest.cs
+Generators\Framework\Templates\TemplateRenderResult.cs
+Generators\Framework\Templates\TokenReplacer.cs
+Generators\Framework\Templates\Validation\TemplatePathGuard.cs
+Generators\Framework\Templates\Validation\TemplatePlaceholderParser.cs
+Generators\Framework\Templates\Validation\TemplateValidator.cs
+Generators\Framework\Validation\GeneratorRequestValidator.cs
+
+===== ABSTRACTIONS =====
+
+----- IGeneratedFileWriter.cs -----
+namespace Kyvara.Builder.Generators.Framework.Abstractions;
+
+public interface IGeneratedFileWriter
+{
+    Task WriteAsync(
+        string outputDirectory,
+        string relativePath,
+        string content,
+        bool overwrite,
+        CancellationToken cancellationToken = default);
+}
+
+----- IGenerator.cs -----
+using Kyvara.Builder.Generators.Framework.Models;
+
+namespace Kyvara.Builder.Generators.Framework.Abstractions;
+
+public interface IGenerator
+{
+    string Name { get; }
+
+    Task<GeneratorResult> GenerateAsync(
+        IGeneratorContext context,
+        CancellationToken cancellationToken = default);
+}
+
+----- IGeneratorContext.cs -----
+namespace Kyvara.Builder.Generators.Framework.Abstractions;
+
+public interface IGeneratorContext
+{
+    string OutputDirectory { get; }
+
+    IReadOnlyDictionary<string, string> Tokens { get; }
+
+    bool OverwriteExistingFiles { get; }
+}
+
+----- IGeneratorPipeline.cs -----
+using Kyvara.Builder.Generators.Framework.Models;
+
+namespace Kyvara.Builder.Generators.Framework.Abstractions;
+
+public interface IGeneratorPipeline
+{
+    Task<GeneratorResult> ExecuteAsync(
+        GeneratorRequest request,
+        CancellationToken cancellationToken = default);
+}
+
+----- IGeneratorRegistry.cs -----
+namespace Kyvara.Builder.Generators.Framework.Abstractions;
+
+public interface IGeneratorRegistry
+{
+    void Register(IGenerator generator);
+
+    bool Contains(string generatorName);
+
+    IGenerator Resolve(string generatorName);
+
+    IReadOnlyCollection<string> GetRegisteredNames();
+}
+
+----- ITemplateProvider.cs -----
+namespace Kyvara.Builder.Generators.Framework.Abstractions;
+
+public interface ITemplateProvider
+{
+    bool Exists(string templateName);
+
+    Task<string> GetTemplateAsync(
+        string templateName,
+        CancellationToken cancellationToken = default);
+}
+
+----- ITokenReplacer.cs -----
+namespace Kyvara.Builder.Generators.Framework.Abstractions;
+
+public interface ITokenReplacer
+{
+    string Replace(
+        string template,
+        IReadOnlyDictionary<string, string> tokens);
+}
+
+
+===== REQUIRED IMPLEMENTATIONS =====
+
+----- .\Generators\Framework\Core\GeneratorContext.cs -----
+using Kyvara.Builder.Generators.Framework.Abstractions;
+using Kyvara.Builder.Generators.Framework.Models;
+
+namespace Kyvara.Builder.Generators.Framework.Core;
+
+public sealed class GeneratorContext : IGeneratorContext
+{
+    private readonly IReadOnlyDictionary<string, string> _tokens;
+
+    public GeneratorContext(GeneratorRequest request)
+    {
+        ArgumentNullException.ThrowIfNull(request);
+
+        OutputDirectory = Path.GetFullPath(request.OutputDirectory);
+        OverwriteExistingFiles = request.OverwriteExistingFiles;
+
+        _tokens = new Dictionary<string, string>(
+            request.Tokens,
+            StringComparer.OrdinalIgnoreCase);
+    }
+
+    public string OutputDirectory { get; }
+
+    public IReadOnlyDictionary<string, string> Tokens => _tokens;
+
+    public bool OverwriteExistingFiles { get; }
+
+    public string GetRequiredToken(string name)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(name);
+
+        if (!_tokens.TryGetValue(name, out var value) ||
+            string.IsNullOrWhiteSpace(value))
+        {
+            throw new GeneratorException(
+                $"Required generator token '{name}' was not provided.");
+        }
+
+        return value;
+    }
+
+    public string? GetOptionalToken(string name)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(name);
+
+        return _tokens.TryGetValue(name, out var value)
+            ? value
+            : null;
+    }
+
+    public bool HasToken(string name)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(name);
+        return _tokens.ContainsKey(name);
+    }
+}
+
+----- .\Generators\Framework\Core\GeneratorBase.cs -----
+using Kyvara.Builder.Generators.Framework.Abstractions;
+using Kyvara.Builder.Generators.Framework.Models;
+
+namespace Kyvara.Builder.Generators.Framework.Core;
+
+public abstract class GeneratorBase : IGenerator
+{
+    public abstract string Name { get; }
+
+    public async Task<GeneratorResult> GenerateAsync(
+        IGeneratorContext context,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(context);
+
+        var result = new GeneratorResult();
+
+        try
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            await ValidateContextAsync(
+                context,
+                cancellationToken);
+
+            await GenerateCoreAsync(
+                context,
+                result,
+                cancellationToken);
+
+            if (result.Success)
+            {
+                result.AddMessage(
+                    $"Generator '{Name}' completed successfully.");
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            result.AddError(
+                $"Generator '{Name}' was cancelled.");
+        }
+        catch (GeneratorException exception)
+        {
+            result.AddError(exception.Message);
+        }
+        catch (Exception exception)
+        {
+            result.AddError(
+                $"Generator '{Name}' failed: {exception.Message}");
+        }
+
+        return result;
+    }
+
+    protected virtual Task ValidateContextAsync(
+        IGeneratorContext context,
+        CancellationToken cancellationToken)
+    {
+        if (string.IsNullOrWhiteSpace(context.OutputDirectory))
+        {
+            throw new GeneratorException(
+                "Generator output directory is required.");
+        }
+
+        return Task.CompletedTask;
+    }
+
+    protected abstract Task GenerateCoreAsync(
+        IGeneratorContext context,
+        GeneratorResult result,
+        CancellationToken cancellationToken);
+
+    protected static void AddArtifact(
+        GeneratorResult result,
+        string relativePath,
+        string content)
+    {
+        ArgumentNullException.ThrowIfNull(result);
+        ArgumentException.ThrowIfNullOrWhiteSpace(relativePath);
+        ArgumentNullException.ThrowIfNull(content);
+
+        result.AddArtifact(
+            new GeneratorArtifact(
+                NormalizeRelativePath(relativePath),
+                content));
+    }
+
+    private static string NormalizeRelativePath(
+        string relativePath)
+    {
+        var normalized = relativePath
+            .Replace(
+                Path.AltDirectorySeparatorChar,
+                Path.DirectorySeparatorChar)
+            .TrimStart(
+                Path.DirectorySeparatorChar);
+
+        if (Path.IsPathRooted(normalized))
+        {
+            throw new GeneratorException(
+                "Generated artifact path must be relative.");
+        }
+
+        if (normalized
+            .Split(Path.DirectorySeparatorChar)
+            .Any(segment => segment == ".."))
+        {
+            throw new GeneratorException(
+                "Generated artifact path cannot traverse parent directories.");
+        }
+
+        return normalized;
+    }
+}
+
+----- .\Generators\Framework\Registry\GeneratorRegistry.cs -----
+using Kyvara.Builder.Generators.Framework.Abstractions;
+using Kyvara.Builder.Generators.Framework.Core;
+
+namespace Kyvara.Builder.Generators.Framework.Registry;
+
+public sealed class GeneratorRegistry : IGeneratorRegistry
+{
+    private readonly Dictionary<string, IGenerator> _generators =
+        new(StringComparer.OrdinalIgnoreCase);
+
+    public void Register(IGenerator generator)
+    {
+        ArgumentNullException.ThrowIfNull(generator);
+
+        if (string.IsNullOrWhiteSpace(generator.Name))
+        {
+            throw new GeneratorException(
+                "Generator name cannot be empty.");
+        }
+
+        if (!_generators.TryAdd(generator.Name, generator))
+        {
+            throw new GeneratorException(
+                $"Generator '{generator.Name}' is already registered.");
+        }
+    }
+
+    public bool Contains(string generatorName)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(generatorName);
+        return _generators.ContainsKey(generatorName);
+    }
+
+    public IGenerator Resolve(string generatorName)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(generatorName);
+
+        if (!_generators.TryGetValue(
+            generatorName,
+            out var generator))
+        {
+            throw new GeneratorException(
+                $"Generator '{generatorName}' is not registered.");
+        }
+
+        return generator;
+    }
+
+    public IReadOnlyCollection<string> GetRegisteredNames()
+    {
+        return _generators.Keys
+            .OrderBy(name => name, StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+    }
+}
+
+----- .\Generators\Framework\Pipeline\GeneratorPipeline.cs -----
+using Kyvara.Builder.Generators.Framework.Abstractions;
+using Kyvara.Builder.Generators.Framework.Core;
+using Kyvara.Builder.Generators.Framework.Models;
+using Kyvara.Builder.Generators.Framework.Pipeline.Steps;
+
+namespace Kyvara.Builder.Generators.Framework.Pipeline;
+
+public sealed class GeneratorPipeline : IGeneratorPipeline
+{
+    private readonly IReadOnlyList<IPipelineStep> _steps;
+
+    public GeneratorPipeline(
+        IGeneratorRegistry registry,
+        IGeneratedFileWriter fileWriter)
+    {
+        ArgumentNullException.ThrowIfNull(registry);
+        ArgumentNullException.ThrowIfNull(fileWriter);
+
+        _steps =
+        [
+            new ValidateRequestStep(),
+            new ResolveGeneratorStep(registry),
+            new CreateGeneratorContextStep(),
+            new ExecuteGeneratorStep(),
+            new WriteArtifactsStep(fileWriter)
+        ];
+    }
+
+    public GeneratorPipeline(
+        IEnumerable<IPipelineStep> steps)
+    {
+        ArgumentNullException.ThrowIfNull(steps);
+
+        _steps = steps.ToArray();
+
+        if (_steps.Count == 0)
+        {
+            throw new GeneratorException(
+                "Generator pipeline requires at least one step.");
+        }
+    }
+
+    public async Task<GeneratorResult> ExecuteAsync(
+        GeneratorRequest request,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(request);
+
+        var executionContext =
+            new PipelineExecutionContext(request);
+
+        try
+        {
+            foreach (var step in _steps)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+
+                await step.ExecuteAsync(
+                    executionContext,
+                    cancellationToken);
+            }
+
+            executionContext.Complete(
+                PipelineStage.Completed);
+
+            var result = executionContext.GeneratorResult
+                ?? new GeneratorResult();
+
+            result.AddMessage(
+                $"Pipeline completed in " +
+                $"{executionContext.Duration?.TotalMilliseconds:F0} ms.");
+
+            return result;
+        }
+        catch (OperationCanceledException)
+        {
+            executionContext.Complete(
+                PipelineStage.Cancelled);
+
+            var result = GetOrCreateResult(
+                executionContext);
+
+            result.AddError(
+                "Generator pipeline was cancelled.");
+
+            return result;
+        }
+        catch (GeneratorException exception)
+        {
+            executionContext.Complete(
+                PipelineStage.Failed);
+
+            var result = GetOrCreateResult(
+                executionContext);
+
+            result.AddError(exception.Message);
+
+            return result;
+        }
+        catch (Exception exception)
+        {
+            executionContext.Complete(
+                PipelineStage.Failed);
+
+            var result = GetOrCreateResult(
+                executionContext);
+
+            result.AddError(
+                $"Unexpected pipeline error: " +
+                $"{exception.Message}");
+
+            return result;
+        }
+    }
+
+    private static GeneratorResult GetOrCreateResult(
+        PipelineExecutionContext executionContext)
+    {
+        return executionContext.GeneratorResult
+            ?? new GeneratorResult();
+    }
+}
+
+----- .\Generators\Framework\Templates\TemplateEngine.cs -----
+using Kyvara.Builder.Generators.Framework.Abstractions;
+using Kyvara.Builder.Generators.Framework.Templates.Validation;
+
+namespace Kyvara.Builder.Generators.Framework.Templates;
+
+public sealed class TemplateEngine
+{
+    private readonly ITemplateProvider _templateProvider;
+    private readonly ITokenReplacer _tokenReplacer;
+
+    public TemplateEngine(
+        ITemplateProvider templateProvider,
+        ITokenReplacer tokenReplacer)
+    {
+        ArgumentNullException.ThrowIfNull(templateProvider);
+        ArgumentNullException.ThrowIfNull(tokenReplacer);
+
+        _templateProvider = templateProvider;
+        _tokenReplacer = tokenReplacer;
+    }
+
+    public async Task<TemplateRenderResult> RenderAsync(
+        TemplateRenderRequest request,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(request);
+        ArgumentException.ThrowIfNullOrWhiteSpace(
+            request.TemplateName);
+
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var template =
+            await _templateProvider.GetTemplateAsync(
+                request.TemplateName,
+                cancellationToken);
+
+        var placeholders =
+            TemplatePlaceholderParser.Find(template);
+
+        var unusedTokens =
+            TemplateValidator.ValidateTokens(
+                template,
+                request.Tokens,
+                request.RejectUnusedTokens);
+
+        var renderedContent =
+            _tokenReplacer.Replace(
+                template,
+                request.Tokens);
+
+        if (request.RejectUnresolvedPlaceholders)
+        {
+            TemplateValidator
+                .EnsureNoUnresolvedPlaceholders(
+                    renderedContent);
+        }
+
+        return new TemplateRenderResult(
+            request.TemplateName,
+            renderedContent,
+            placeholders,
+            unusedTokens);
+    }
+}
+
+----- .\Generators\Framework\Templates\FileTemplateProvider.cs -----
+using System.Collections.Concurrent;
+using Kyvara.Builder.Generators.Framework.Abstractions;
+using Kyvara.Builder.Generators.Framework.Templates.Validation;
+
+namespace Kyvara.Builder.Generators.Framework.Templates;
+
+public sealed class FileTemplateProvider : ITemplateProvider
+{
+    private readonly string _templateRoot;
+    private readonly bool _enableCache;
+
+    private readonly ConcurrentDictionary<string, string> _cache =
+        new(StringComparer.OrdinalIgnoreCase);
+
+    public FileTemplateProvider(
+        string templateRoot,
+        bool enableCache = true)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(templateRoot);
+
+        _templateRoot = Path.GetFullPath(templateRoot);
+        _enableCache = enableCache;
+    }
+
+    public string TemplateRoot => _templateRoot;
+
+    public int CachedTemplateCount => _cache.Count;
+
+    public bool Exists(string templateName)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(templateName);
+
+        var path = TemplatePathGuard.ResolveSafePath(
+            _templateRoot,
+            templateName);
+
+        return File.Exists(path);
+    }
+
+    public async Task<string> GetTemplateAsync(
+        string templateName,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(templateName);
+
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var path = TemplatePathGuard.ResolveSafePath(
+            _templateRoot,
+            templateName);
+
+        if (_enableCache &&
+            _cache.TryGetValue(path, out var cached))
+        {
+            return cached;
+        }
+
+        if (!File.Exists(path))
+        {
+            throw new TemplateException(
+                $"Template '{templateName}' was not found under " +
+                $"'{_templateRoot}'.");
+        }
+
+        try
+        {
+            var content = await File.ReadAllTextAsync(
+                path,
+                cancellationToken);
+
+            if (_enableCache)
+            {
+                _cache[path] = content;
+            }
+
+            return content;
+        }
+        catch (OperationCanceledException)
+        {
+            throw;
+        }
+        catch (Exception exception)
+        {
+            throw new TemplateException(
+                $"Unable to read template '{templateName}'.",
+                exception);
+        }
+    }
+
+    public bool RemoveFromCache(string templateName)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(templateName);
+
+        var path = TemplatePathGuard.ResolveSafePath(
+            _templateRoot,
+            templateName);
+
+        return _cache.TryRemove(path, out _);
+    }
+
+    public void ClearCache()
+    {
+        _cache.Clear();
+    }
+}
+
+----- .\Generators\Framework\Templates\EmbeddedTemplateProvider.cs -----
+using Kyvara.Builder.Generators.Framework.Abstractions;
+
+namespace Kyvara.Builder.Generators.Framework.Templates;
+
+public sealed class EmbeddedTemplateProvider : ITemplateProvider
+{
+    private readonly IReadOnlyDictionary<string, string> _templates;
+
+    public EmbeddedTemplateProvider(
+        IReadOnlyDictionary<string, string> templates)
+    {
+        ArgumentNullException.ThrowIfNull(templates);
+
+        _templates = new Dictionary<string, string>(
+            templates,
+            StringComparer.OrdinalIgnoreCase);
+    }
+
+    public bool Exists(string templateName)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(templateName);
+
+        return _templates.ContainsKey(templateName);
+    }
+
+    public Task<string> GetTemplateAsync(
+        string templateName,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(templateName);
+
+        cancellationToken.ThrowIfCancellationRequested();
+
+        if (!_templates.TryGetValue(
+                templateName,
+                out var template))
+        {
+            throw new TemplateException(
+                $"Embedded template '{templateName}' was not found.");
+        }
+
+        return Task.FromResult(template);
+    }
+}
+
+----- .\Generators\Framework\Templates\TokenReplacer.cs -----
+using System.Text.RegularExpressions;
+using Kyvara.Builder.Generators.Framework.Abstractions;
+
+namespace Kyvara.Builder.Generators.Framework.Templates;
+
+public sealed partial class TokenReplacer : ITokenReplacer
+{
+    public string Replace(
+        string template,
+        IReadOnlyDictionary<string, string> tokens)
+    {
+        ArgumentNullException.ThrowIfNull(template);
+        ArgumentNullException.ThrowIfNull(tokens);
+
+        return PlaceholderPattern().Replace(
+            template,
+            match =>
+            {
+                var tokenName =
+                    match.Groups["name"].Value;
+
+                return tokens.TryGetValue(
+                    tokenName,
+                    out var value)
+                    ? value ?? string.Empty
+                    : match.Value;
+            });
+    }
+
+    [GeneratedRegex(
+        @"\{\{\s*(?<name>[A-Za-z][A-Za-z0-9_.-]*)\s*\}\}",
+        RegexOptions.CultureInvariant)]
+    private static partial Regex PlaceholderPattern();
+}
+
+----- .\Generators\Framework\FileSystem\GeneratedFileWriter.cs -----
+using System.Text;
+using Kyvara.Builder.Generators.Framework.Abstractions;
+using Kyvara.Builder.Generators.Framework.FileSystem.Validation;
+
+namespace Kyvara.Builder.Generators.Framework.FileSystem;
+
+public sealed class GeneratedFileWriter
+    : IGeneratedFileWriter
+{
+    private readonly GeneratedFileWriterOptions _options;
+    private readonly IGeneratedFileWriteObserver? _observer;
+
+    public GeneratedFileWriter(
+        GeneratedFileWriterOptions? options = null,
+        IGeneratedFileWriteObserver? observer = null)
+    {
+        _options = options ??
+            new GeneratedFileWriterOptions();
+
+        _observer = observer;
+
+        ValidateOptions(_options);
+    }
+
+    public async Task WriteAsync(
+        string outputDirectory,
+        string relativePath,
+        string content,
+        bool overwrite,
+        CancellationToken cancellationToken = default)
+    {
+        var result = await WriteWithResultAsync(
+            outputDirectory,
+            relativePath,
+            content,
+            overwrite,
+            cancellationToken);
+
+        if (!result.Success)
+        {
+            throw new GeneratedFileWriterException(
+                result.Message ??
+                $"Unable to write generated file '{relativePath}'.");
+        }
+    }
+
+    public async Task<GeneratedFileWriteResult> WriteWithResultAsync(
+        string outputDirectory,
+        string relativePath,
+        string content,
+        bool overwrite,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(outputDirectory);
+        ArgumentException.ThrowIfNullOrWhiteSpace(relativePath);
+        ArgumentNullException.ThrowIfNull(content);
+
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var normalizedRelativePath =
+            GeneratedFilePathGuard.NormalizeRelativePath(
+                relativePath);
+
+        string fullPath;
+
+        try
+        {
+            fullPath = GeneratedFilePathGuard.ResolveSafePath(
+                outputDirectory,
+                relativePath);
+        }
+        catch (Exception exception)
+        {
+            var failedResult =
+                new GeneratedFileWriteResult(
+                    normalizedRelativePath,
+                    string.Empty,
+                    GeneratedFileWriteStatus.Failed,
+                    false,
+                    null,
+                    exception.Message);
+
+            Notify(failedResult);
+            return failedResult;
+        }
+
+        try
+        {
+            var normalizedContent =
+                GeneratedContentNormalizer.Normalize(
+                    content,
+                    _options.EnsureTrailingNewLine);
+
+            var fileExists = File.Exists(fullPath);
+
+            if (fileExists &&
+                _options.SkipUnchangedFiles)
+            {
+                var currentContent =
+                    await File.ReadAllTextAsync(
+                        fullPath,
+                        cancellationToken);
+
+                var normalizedCurrentContent =
+                    GeneratedContentNormalizer.Normalize(
+                        currentContent,
+                        _options.EnsureTrailingNewLine);
+
+                if (string.Equals(
+                        normalizedCurrentContent,
+                        normalizedContent,
+                        StringComparison.Ordinal))
+                {
+                    var skippedResult =
+                        new GeneratedFileWriteResult(
+                            normalizedRelativePath,
+                            fullPath,
+                            GeneratedFileWriteStatus.Skipped,
+                            false,
+                            null,
+                            "Existing file is unchanged.");
+
+                    Notify(skippedResult);
+                    return skippedResult;
+                }
+            }
+
+            if (fileExists && !overwrite)
+            {
+                var failedResult =
+                    new GeneratedFileWriteResult(
+                        normalizedRelativePath,
+                        fullPath,
+                        GeneratedFileWriteStatus.Failed,
+                        false,
+                        null,
+                        $"File '{normalizedRelativePath}' already exists and overwrite is disabled.");
+
+                Notify(failedResult);
+                return failedResult;
+            }
+
+            if (_options.DryRun)
+            {
+                var dryRunResult =
+                    new GeneratedFileWriteResult(
+                        normalizedRelativePath,
+                        fullPath,
+                        GeneratedFileWriteStatus.DryRun,
+                        false,
+                        null,
+                        fileExists
+                            ? "Dry run: existing file would be overwritten."
+                            : "Dry run: new file would be created.");
+
+                Notify(dryRunResult);
+                return dryRunResult;
+            }
+
+            var outputRoot = Path.GetFullPath(
+                outputDirectory);
+
+            if (!Directory.Exists(outputRoot))
+            {
+                if (!_options.CreateOutputDirectory)
+                {
+                    var failedResult =
+                        new GeneratedFileWriteResult(
+                            normalizedRelativePath,
+                            fullPath,
+                            GeneratedFileWriteStatus.Failed,
+                            false,
+                            null,
+                            $"Output directory '{outputRoot}' does not exist.");
+
+                    Notify(failedResult);
+                    return failedResult;
+                }
+
+                Directory.CreateDirectory(outputRoot);
+            }
+
+            var targetDirectory = Path.GetDirectoryName(fullPath);
+
+            if (!string.IsNullOrWhiteSpace(targetDirectory))
+            {
+                Directory.CreateDirectory(targetDirectory);
+            }
+
+            string? backupPath = null;
+            var backupCreated = false;
+
+            if (fileExists &&
+                overwrite &&
+                _options.CreateBackupBeforeOverwrite)
+            {
+                backupPath = CreateUniqueBackupPath(fullPath);
+
+                File.Copy(
+                    fullPath,
+                    backupPath,
+                    overwrite: false);
+
+                backupCreated = true;
+            }
+
+            await AtomicWriteAsync(
+                fullPath,
+                normalizedContent,
+                cancellationToken);
+
+            var result =
+                new GeneratedFileWriteResult(
+                    normalizedRelativePath,
+                    fullPath,
+                    fileExists
+                        ? GeneratedFileWriteStatus.Overwritten
+                        : GeneratedFileWriteStatus.Created,
+                    backupCreated,
+                    backupPath,
+                    fileExists
+                        ? "File overwritten successfully."
+                        : "File created successfully.");
+
+            Notify(result);
+            return result;
+        }
+        catch (OperationCanceledException)
+        {
+            throw;
+        }
+        catch (Exception exception)
+        {
+            var failedResult =
+                new GeneratedFileWriteResult(
+                    normalizedRelativePath,
+                    fullPath,
+                    GeneratedFileWriteStatus.Failed,
+                    false,
+                    null,
+                    exception.Message);
+
+            Notify(failedResult);
+            return failedResult;
+        }
+    }
+
+    private static async Task AtomicWriteAsync(
+        string fullPath,
+        string content,
+        CancellationToken cancellationToken)
+    {
+        var directory = Path.GetDirectoryName(fullPath)
+            ?? throw new GeneratedFileWriterException(
+                $"Unable to resolve directory for '{fullPath}'.");
+
+        var temporaryPath = Path.Combine(
+            directory,
+            $".{Path.GetFileName(fullPath)}.{Guid.NewGuid():N}.tmp");
+
+        try
+        {
+            await File.WriteAllTextAsync(
+                temporaryPath,
+                content,
+                new UTF8Encoding(
+                    encoderShouldEmitUTF8Identifier: false),
+                cancellationToken);
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            File.Move(
+                temporaryPath,
+                fullPath,
+                overwrite: true);
+        }
+        finally
+        {
+            if (File.Exists(temporaryPath))
+            {
+                File.Delete(temporaryPath);
+            }
+        }
+    }
+
+    private string CreateUniqueBackupPath(
+        string fullPath)
+    {
+        var extension = _options.BackupExtension;
+
+        var baseBackupPath = fullPath + extension;
+
+        if (!File.Exists(baseBackupPath))
+        {
+            return baseBackupPath;
+        }
+
+        var timestamp =
+            DateTimeOffset.UtcNow.ToString(
+                "yyyyMMddHHmmssfff");
+
+        return fullPath +
+               "." +
+               timestamp +
+               extension;
+    }
+
+    private void Notify(
+        GeneratedFileWriteResult result)
+    {
+        _observer?.OnCompleted(result);
+    }
+
+    private static void ValidateOptions(
+        GeneratedFileWriterOptions options)
+    {
+        if (string.IsNullOrWhiteSpace(
+                options.BackupExtension))
+        {
+            throw new ArgumentException(
+                "Backup extension cannot be empty.",
+                nameof(options));
+        }
+
+        if (options.BackupExtension.IndexOfAny(
+                Path.GetInvalidFileNameChars()) >= 0)
+        {
+            throw new ArgumentException(
+                "Backup extension contains invalid characters.",
+                nameof(options));
+        }
+    }
+}
+
+----- .\Generators\Framework\FileSystem\GeneratedFileWriterOptions.cs -----
+namespace Kyvara.Builder.Generators.Framework.FileSystem;
+
+public sealed class GeneratedFileWriterOptions
+{
+    public bool DryRun { get; init; }
+
+    public bool CreateBackupBeforeOverwrite { get; init; }
+
+    public string BackupExtension { get; init; } = ".bak";
+
+    public bool SkipUnchangedFiles { get; init; } = true;
+
+    public bool EnsureTrailingNewLine { get; init; } = true;
+
+    public bool CreateOutputDirectory { get; init; } = true;
+}
+
+----- .\Generators\Framework\FileSystem\GeneratedFileWriterFactory.cs -----
+namespace Kyvara.Builder.Generators.Framework.FileSystem;
+
+public static class GeneratedFileWriterFactory
+{
+    public static GeneratedFileWriter CreateDefault(
+        IGeneratedFileWriteObserver? observer = null)
+    {
+        return new GeneratedFileWriter(
+            new GeneratedFileWriterOptions
+            {
+                DryRun = false,
+                CreateBackupBeforeOverwrite = false,
+                SkipUnchangedFiles = true,
+                EnsureTrailingNewLine = true,
+                CreateOutputDirectory = true
+            },
+            observer);
+    }
+
+    public static GeneratedFileWriter CreateSafeOverwrite(
+        IGeneratedFileWriteObserver? observer = null)
+    {
+        return new GeneratedFileWriter(
+            new GeneratedFileWriterOptions
+            {
+                DryRun = false,
+                CreateBackupBeforeOverwrite = true,
+                BackupExtension = ".bak",
+                SkipUnchangedFiles = true,
+                EnsureTrailingNewLine = true,
+                CreateOutputDirectory = true
+            },
+            observer);
+    }
+
+    public static GeneratedFileWriter CreateDryRun(
+        IGeneratedFileWriteObserver? observer = null)
+    {
+        return new GeneratedFileWriter(
+            new GeneratedFileWriterOptions
+            {
+                DryRun = true,
+                CreateBackupBeforeOverwrite = false,
+                SkipUnchangedFiles = true,
+                EnsureTrailingNewLine = true,
+                CreateOutputDirectory = false
+            },
+            observer);
+    }
+}
+
