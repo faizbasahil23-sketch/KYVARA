@@ -88,7 +88,7 @@ public sealed class GeneratorFrameworkBuilder
     }
 
     /// <summary>
-    /// Uses a file writer that creates backups before overwriting.
+    /// Uses a writer that creates backups before overwriting.
     /// </summary>
     public GeneratorFrameworkBuilder UseSafeOverwriteFileWriter()
     {
@@ -99,7 +99,7 @@ public sealed class GeneratorFrameworkBuilder
     }
 
     /// <summary>
-    /// Uses a dry-run file writer that does not modify physical files.
+    /// Uses a dry-run writer that does not modify physical files.
     /// </summary>
     public GeneratorFrameworkBuilder UseDryRunFileWriter()
     {
@@ -116,16 +116,13 @@ public sealed class GeneratorFrameworkBuilder
     {
         var registry = new GeneratorRegistry();
 
-        foreach (var generator in _generators)
-        {
-            registry.Register(generator);
-        }
+        RegisterGenerators(registry);
 
         return registry;
     }
 
     /// <summary>
-    /// Builds the complete generator pipeline.
+    /// Builds only the generator pipeline.
     /// </summary>
     public IGeneratorPipeline Build()
     {
@@ -134,5 +131,34 @@ public sealed class GeneratorFrameworkBuilder
         return new GeneratorPipeline(
             registry,
             _fileWriter);
+    }
+
+    /// <summary>
+    /// Builds the complete generator framework runtime.
+    /// </summary>
+    public GeneratorFramework BuildFramework()
+    {
+        var registry = new GeneratorRegistry();
+
+        RegisterGenerators(registry);
+
+        var pipeline = new GeneratorPipeline(
+            registry,
+            _fileWriter);
+
+        return new GeneratorFramework(
+            registry,
+            pipeline);
+    }
+
+    private void RegisterGenerators(
+        IGeneratorRegistry registry)
+    {
+        ArgumentNullException.ThrowIfNull(registry);
+
+        foreach (var generator in _generators)
+        {
+            registry.Register(generator);
+        }
     }
 }
